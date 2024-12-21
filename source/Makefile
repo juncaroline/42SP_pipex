@@ -6,13 +6,13 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 11:59:00 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/12/20 16:17:27 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/20 16:58:39 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRC = main.c \
+SRC = main.c utils.c \
 
 OBJS =$(SRC:.c=.o)
 HEADER = ../includes
