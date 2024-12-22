@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:58:48 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/20 16:44:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:14:11 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	child_process (char **av, char **envp, int *fd)
+void	child_process(char **av, char **envp, int *fd)
 {
-	int filein;
+	int	filein;
 
 	filein = open(av[1], O_RDONLY);
 	if (filein == -1)
@@ -31,7 +31,7 @@ void	child_process (char **av, char **envp, int *fd)
 	execute(av[2], envp);
 }
 
-void	parent_process (char **av, char **envp, int *fd)
+void	parent_process(char **av, char **envp, int *fd)
 {
 	int	fileout;
 
@@ -44,10 +44,10 @@ void	parent_process (char **av, char **envp, int *fd)
 	execute(av[3], envp);
 }
 
-int	main (int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-	int pipefd[2];
-	pid_t childpid;
+	int		pipefd[2];
+	pid_t	childpid;
 
 	if (ac == 5)
 	{
@@ -58,7 +58,8 @@ int	main (int ac, char **av, char **envp)
 			error();
 		if (childpid == 0)
 			child_process (av, envp, pipefd);
-		waitpid(childpid, NULL, 0);
+		if (waitpid(childpid, NULL, 0) == -1)
+			error();
 		parent_process (av, envp, pipefd);
 	}
 	else

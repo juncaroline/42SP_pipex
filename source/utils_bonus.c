@@ -6,17 +6,18 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:05 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/21 14:35:05 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/22 16:40:28 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	usage(void)
+void	error_msg(void)
 {
 	ft_putstr_fd("Error: Invalid arguments\n", 2);
 	ft_putstr_fd("Example: ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n", 1);
-	ft_putstr_fd("         ./pipex \"here_doc\" <LIMITER> <cmd> <cmd> <...> <file>\n", 1);
+	ft_putstr_fd
+		("Or: ./pipex \"here_doc\" <LIMITER> <cmd> <cmd> <...> <file>\n", 1);
 }
 
 int	open_file(char *av, int i)
@@ -35,29 +36,57 @@ int	open_file(char *av, int i)
 	return (file);
 }
 
+static char	*expand_buffer(char *buffer, int *buffer_size, int i)
+{
+	int		j;
+	char	*new_buffer;
+
+	if (i >= buffer_size - 1)
+	{
+		*buffer_size *= 2;
+		new_buffer = (char *)malloc(*buffer_size);
+		if (new_buffer == NULL)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		j = 0;
+		while (j < i)
+		{
+			new_buffer[j] = buffer[j];
+			j++;
+		}
+		free (buffer);
+		return (new_buffer);
+	}
+	return (buffer);
+}
+
 int	get_next_line(char **line)
 {
-	char 	*buffer;
+	char	*buffer;
 	int		i;
-	int		r;
-	char	c;
+	int		bytes_read;
+	char	temp;
+	int		buffer_size;
 
 	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
+	buffer_size = 100;
+	buffer = (char *)malloc(buffer_size);
 	if (buffer == NULL)
 		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
+	bytes_read = read(0, &temp, 1);
+	while (bytes_read > 0 && temp != '\n' && temp != '\0')
 	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		r = read(0, &c, 1);
+		buffer = expand_buffer(buffer, &buffer_size, i);
+		if (buffer == NULL)
+			return (-1);
+		buffer[i++] = temp;
+		bytes_read = read(0, &temp, 1);
 	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
+	if (bytes_read > 0 && temp == '\n')
+		i--;
+	buffer[i] = '\0';
 	*line = buffer;
-	free(buffer);
-	return (r);
+	return (bytes_read);
 }

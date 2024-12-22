@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:42:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/20 16:52:43 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/22 15:20:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ static char	**get_directories(char **envp)
 	return (ft_split(envp[i] + 5, ':'));
 }
 
-static void	free(char **split)
+static void	free_split(char **split)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (split && split[i])
 		free(split[i++]);
 	free(split);
@@ -35,7 +37,7 @@ static void	free(char **split)
 char	*get_path(char *cmd, char **envp)
 {
 	char	**valid_path;
-	char	*allpath;
+	char	*fullpath;
 	char	*part_path;
 	int		i;
 
@@ -46,21 +48,21 @@ char	*get_path(char *cmd, char **envp)
 	while (valid_path[i])
 	{
 		part_path = ft_strjoin(valid_path[i], "/");
-		allpath = ft_strjoin(part_path, cmd);
+		fullpath = ft_strjoin(part_path, cmd);
 		free(part_path);
-		if (access(allpath, F_OK) == 0)
+		if (access(fullpath, F_OK) == 0)
 		{
 			free_split(valid_path);
-			return (allpath);
+			return (fullpath);
 		}
-		free(allpath);
+		free(fullpath);
 		i++;
 	}
 	free_split(valid_path);
 	return (NULL);
 }
 
-void	execute (char *av, char **envp)
+void	execute(char *av, char **envp)
 {
 	char	**cmd;
 	char	*path;
@@ -77,5 +79,5 @@ void	execute (char *av, char **envp)
 		error();
 	}
 	if (execve(path, cmd, envp) == -1)
-	    error();
+		error();
 }
