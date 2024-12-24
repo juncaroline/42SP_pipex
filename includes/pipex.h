@@ -6,19 +6,20 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:59:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/22 16:54:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:18:28 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include "../libraries/libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <sys/wait.h>
-# include "../libft/libft.h"
 
 char	*get_path(char *cmd, char **envp);
 void	execute (char *av, char **envp);

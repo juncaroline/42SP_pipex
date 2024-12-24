@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 16:42:09 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/22 15:20:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/24 16:24:57 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_path(char *cmd, char **envp)
 		part_path = ft_strjoin(valid_path[i], "/");
 		fullpath = ft_strjoin(part_path, cmd);
 		free(part_path);
-		if (access(fullpath, F_OK) == 0)
+		if (access(fullpath, F_OK | X_OK) == 0)
 		{
 			free_split(valid_path);
 			return (fullpath);
@@ -80,4 +80,10 @@ void	execute(char *av, char **envp)
 	}
 	if (execve(path, cmd, envp) == -1)
 		error();
+}
+
+void	error(void)
+{
+	perror("Error");
+	exit(EXIT_FAILURE);
 }

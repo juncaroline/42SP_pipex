@@ -6,18 +6,19 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 11:59:00 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/12/22 16:56:10 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/24 17:57:55 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
+NAME_BONUS = pipex_bonus
 
-SRC = main.c utils.c \
+SRC = main.c utils.c
+SRC_BONUS = main_bonus.c utils.c utils_bonus.c \
 
-SRC_BONUS = main_bonus.c utils_bonus.c \
-
-OBJS =$(SRC:.c=.o)
+OBJS = $(SRC:.c=.o)
 OBJSBONUS = $(SRC_BONUS:.c=.o)
+
 HEADER = ../includes
 LIBFT = ../libraries/libft
 
@@ -36,11 +37,13 @@ $(NAME): $(OBJS)
 	@make -C $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT) -lft
 
-bonus: $(OBJS) $(OBJSBONUS)
-	@make OBJS="$(OBJS) $(OBJSBONUS)" --no-print-directory
+bonus: $(OBJSBONUS)
+	@make -C $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJSBONUS) -L$(LIBFT) -lft
+#	@make OBJS="$(OBJSBONUS)" --no-print-directory
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(OBJSBONUS)
 	@make -C $(LIBFT) clean
 
 fclean: clean
@@ -49,4 +52,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+re_bonus: fclean bonus
+
+.PHONY: all clean fclean re re_bonus

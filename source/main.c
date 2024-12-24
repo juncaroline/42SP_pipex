@@ -6,17 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:58:48 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/22 12:14:11 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/24 15:40:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-void	error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
 
 void	child_process(char **av, char **envp, int *fd)
 {

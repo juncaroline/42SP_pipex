@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:05 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/22 16:40:28 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/24 16:59:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*expand_buffer(char *buffer, int *buffer_size, int i)
 	int		j;
 	char	*new_buffer;
 
-	if (i >= buffer_size - 1)
+	if (i >= *buffer_size - 1)
 	{
 		*buffer_size *= 2;
 		new_buffer = (char *)malloc(*buffer_size);
@@ -62,12 +62,29 @@ static char	*expand_buffer(char *buffer, int *buffer_size, int i)
 	return (buffer);
 }
 
+static int	read_line(char **buffer, int *buffer_size, int *i)
+{
+	char	temp;
+	int		bytes_read;
+
+	bytes_read = read(0, &temp, 1);
+	while (bytes_read > 0 && temp != '\n' && temp != '\0')
+	{
+		*buffer = expand_buffer(*buffer, buffer_size, *i);
+		if (*buffer == NULL)
+			return (-1);
+		(*buffer)[*i] = temp;
+		(*i)++;
+		bytes_read = read(0, &temp, 1);
+	}
+	return (bytes_read);
+}
+
 int	get_next_line(char **line)
 {
 	char	*buffer;
 	int		i;
 	int		bytes_read;
-	char	temp;
 	int		buffer_size;
 
 	i = 0;
@@ -75,18 +92,15 @@ int	get_next_line(char **line)
 	buffer = (char *)malloc(buffer_size);
 	if (buffer == NULL)
 		return (-1);
-	bytes_read = read(0, &temp, 1);
-	while (bytes_read > 0 && temp != '\n' && temp != '\0')
+	bytes_read = read_line(&buffer, &buffer_size, &i);
+	if (bytes_read == -1)
 	{
-		buffer = expand_buffer(buffer, &buffer_size, i);
-		if (buffer == NULL)
-			return (-1);
-		buffer[i++] = temp;
-		bytes_read = read(0, &temp, 1);
+		free(buffer);
+		return (-1);
 	}
-	if (bytes_read > 0 && temp == '\n')
-		i--;
 	buffer[i] = '\0';
 	*line = buffer;
-	return (bytes_read);
+	if (bytes_read == 0 && i == 0)
+		return (0);
+	return (1);
 }

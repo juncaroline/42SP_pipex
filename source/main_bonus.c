@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/22 16:53:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/24 17:21:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,44 +25,61 @@ void	multiple_child_process(char *av, char **envp)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			error();
+		close(fd[1]);
 		execute(av, envp);
 	}
 	else
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			error();
+		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
 
-void	here_doc(char *limiter, int ac)
+static void	create_here_doc(int fd[2], char *limiter)
 {
 	pid_t	reader;
-	int		fd[2];
-	char	*line;
+	char 	*line;
 
-	if (ac < 6)
-		error_msg();
+	reader = fork();
 	if (pipe(fd) == -1)
 		error();
-	reader = fork();
 	if (reader == 0)
 	{
 		close(fd[0]);
 		while (get_next_line(&line))
 		{
+			if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			{
+				free(line);
 				exit(EXIT_SUCCESS);
+			}
 			write(fd[1], line, ft_strlen(line));
+			free(line);
 		}
-	}
-	else
-	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
 	}
+}
+
+void	here_doc(char *limiter, int ac)
+{
+	int		fd[2];
+
+	if (ac < 6)
+		error_msg();
+	if (pipe(fd) == -1)
+		error();
+	create_here_doc(fd, limiter);
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	wait(NULL);
 }
 
 int	main(int ac, char **av, char **envp)
