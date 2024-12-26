@@ -6,7 +6,7 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 11:59:00 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/12/26 10:23:41 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/26 10:26:23 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ $(NAME): $(OBJS)
 bonus: $(OBJSBONUS)
 	@make -C $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJSBONUS) -L$(LIBFT) -lft
-#	@make OBJS="$(OBJSBONUS)" --no-print-directory
 
 clean:
 	$(RM) $(OBJS) $(OBJSBONUS)
