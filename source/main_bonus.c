@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/26 10:10:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/26 11:16:44 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	multiple_child_process(char *av, char **envp)
 static void	create_here_doc(int fd[2], char *limiter)
 {
 	pid_t	reader;
-	char 	*line;
+	char	*line;
 
 	reader = fork();
 	if (pipe(fd) == -1)
