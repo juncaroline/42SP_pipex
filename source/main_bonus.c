@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:07 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/24 17:21:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/26 10:10:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 void	multiple_child_process(char *av, char **envp)
 {

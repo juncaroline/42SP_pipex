@@ -6,7 +6,7 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 11:59:00 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/12/24 17:57:55 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/26 10:23:41 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ clean:
 	@make -C $(LIBFT) clean
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_BONUS)
 	@make -C $(LIBFT) fclean
 
 re: fclean all

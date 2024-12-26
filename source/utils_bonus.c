@@ -6,11 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:05 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/24 16:59:10 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/12/26 10:09:55 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 void	error_msg(void)
 {
