@@ -6,7 +6,7 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 09:31:40 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/11/01 12:55:51 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/27 14:59:19 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,8 @@ RM = rm -rf
 all: $(NAME)
 
 $(NAME): $(OBJS)
-#	ar rcs $(NAME) $(OBJS)
 
 bonus: $(OBJS) $(OBJSBONUS)
-#	ar rcs $(NAME) $(OBJS) $(OBJSBONUS)
 	@make OBJS="$(OBJS) $(OBJSBONUS)" --no-print-directory 
 
 %.o: %.c

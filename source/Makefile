@@ -6,7 +6,7 @@
 #    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 11:59:00 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/12/26 10:26:23 by cabo-ram         ###   ########.fr        #
+#    Updated: 2024/12/27 15:02:01 by cabo-ram         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,14 @@ RM = rm -rf
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT)
+	@make -s -C $(LIBFT) --no-print-directory
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT) -lft
 
 bonus: $(OBJSBONUS)
-	@make -C $(LIBFT)
+	@make -C $(LIBFT) --no-print-directory
 	$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJSBONUS) -L$(LIBFT) -lft
 
 clean:
