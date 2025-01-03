@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:02:05 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/26 10:09:55 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:55:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,73 +34,4 @@ int	open_file(char *av, int i)
 	if (file == -1)
 		error();
 	return (file);
-}
-
-static char	*expand_buffer(char *buffer, int *buffer_size, int i)
-{
-	int		j;
-	char	*new_buffer;
-
-	if (i >= *buffer_size - 1)
-	{
-		*buffer_size *= 2;
-		new_buffer = (char *)malloc(*buffer_size);
-		if (new_buffer == NULL)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		j = 0;
-		while (j < i)
-		{
-			new_buffer[j] = buffer[j];
-			j++;
-		}
-		free (buffer);
-		return (new_buffer);
-	}
-	return (buffer);
-}
-
-static int	read_line(char **buffer, int *buffer_size, int *i)
-{
-	char	temp;
-	int		bytes_read;
-
-	bytes_read = read(0, &temp, 1);
-	while (bytes_read > 0 && temp != '\n' && temp != '\0')
-	{
-		*buffer = expand_buffer(*buffer, buffer_size, *i);
-		if (*buffer == NULL)
-			return (-1);
-		(*buffer)[*i] = temp;
-		(*i)++;
-		bytes_read = read(0, &temp, 1);
-	}
-	return (bytes_read);
-}
-
-int	get_next_line(char **line)
-{
-	char	*buffer;
-	int		i;
-	int		bytes_read;
-	int		buffer_size;
-
-	i = 0;
-	buffer_size = 100;
-	buffer = (char *)malloc(buffer_size);
-	if (buffer == NULL)
-		return (-1);
-	bytes_read = read_line(&buffer, &buffer_size, &i);
-	if (bytes_read == -1)
-	{
-		free(buffer);
-		return (-1);
-	}
-	buffer[i] = '\0';
-	*line = buffer;
-	if (bytes_read == 0 && i == 0)
-		return (0);
-	return (1);
 }

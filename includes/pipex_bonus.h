@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:07:45 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/12/26 11:17:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:56:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
-void	here_doc(char *limiter, int ac);
 void	multiple_child_process(char *av, char **envp);
 void	error_msg(void);
 int		open_file(char *av, int i);
-int		get_next_line(char **line);
 void	execute(char *av, char **envp);
 void	error(void);
 
